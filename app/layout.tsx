@@ -3,6 +3,7 @@ import { Geist_Mono, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/src/shared/lib"
 import { Metadata } from "next"
+import { Header } from "@/src/widgets/header"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -37,7 +38,8 @@ export default function RootLayout({
         spaceGrotesk.variable
       )}
     >
-      <body>
+      <body >
+        <Header />
         <main className="flex-1">{children}</main>
       </body>
     </html>
