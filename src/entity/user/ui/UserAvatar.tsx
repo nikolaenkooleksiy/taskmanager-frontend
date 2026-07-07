@@ -1,14 +1,18 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage, Skeleton } from "@/src/shared/ui"
-import { useState } from "react"
+import { ComponentProps, useState } from "react"
 
-interface UserAvatarProps {
+interface UserAvatarProps extends ComponentProps<typeof Avatar> {
   avatarUrl: string | null
   fallback: string
 }
 
-export const UserAvatar = ({ avatarUrl, fallback }: UserAvatarProps) => {
+export const UserAvatar = ({
+  avatarUrl,
+  fallback,
+  ...props
+}: UserAvatarProps) => {
   const hasAvatar = avatarUrl && avatarUrl !== "null"
 
   const [status, setStatus] = useState<"idle" | "loading" | "loaded" | "error">(
@@ -16,7 +20,7 @@ export const UserAvatar = ({ avatarUrl, fallback }: UserAvatarProps) => {
   )
 
   return (
-    <Avatar className="hidden sm:block">
+    <Avatar className="hidden cursor-pointer sm:block" {...props}>
       {status === "loading" && (
         <Skeleton className="absolute inset-0 rounded-full" />
       )}

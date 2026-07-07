@@ -1,20 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server"
 
-const PUBLIC_ROUTES = ["/", "/auth/login", "/auth/register"]
-
 export default async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl
-
   const accessToken = request.cookies.get("accessToken")?.value
   const refreshToken = request.cookies.get("refreshToken")?.value
-
-  const isPublicRoute = PUBLIC_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
-  )
-
-  if (!isPublicRoute && !accessToken && !refreshToken) {
-    return NextResponse.redirect(new URL("/auth/login", request.url))
-  }
 
   const response = NextResponse.next()
 
@@ -25,10 +13,6 @@ export default async function proxy(request: NextRequest) {
       if (refreshResult.status === 401 || refreshResult.status === 403) {
         response.cookies.delete("accessToken")
         response.cookies.delete("refreshToken")
-
-        if (!isPublicRoute) {
-          return NextResponse.redirect(new URL("/auth/login", request.url))
-        }
       }
     }
   }

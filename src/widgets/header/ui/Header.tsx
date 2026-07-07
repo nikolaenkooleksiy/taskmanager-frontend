@@ -3,11 +3,9 @@ import { ListTodo } from "lucide-react"
 import { ProjectSelector } from "./ProjectSelector"
 import { MobileMenu } from "./MobileMenu"
 import { AuthButton } from "@/src/core/auth"
-import {
-  getUserProfile,
-  UserAvatar,
-  UserAvatarSkeleton,
-} from "@/src/entity/user"
+import { getUserProfile, UserAvatarSkeleton } from "@/src/entity/user"
+import {} from "@/src/shared/ui"
+import { UserProfileDropdown } from "./UserProfileDropdown"
 import { Suspense } from "react"
 
 export const Header = async () => {
@@ -33,10 +31,7 @@ export const Header = async () => {
             <AuthButton className="hidden sm:inline-flex" />
           ) : (
             <Suspense fallback={<UserAvatarSkeleton />}>
-              <UserAvatar
-                avatarUrl={user && user.avatarUrl}
-                fallback={user?.username?.slice(0, 2) || "??"}
-              />
+              <UserProfileDropdown user={user} />
             </Suspense>
           )}
 
