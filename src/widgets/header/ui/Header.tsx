@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { ListTodo } from "lucide-react"
-import { ProjectSelector } from "./ProjectSelector"
 import { MobileMenu } from "./MobileMenu"
 import { AuthButton } from "@/src/core/auth"
 import { getUserProfile, UserAvatarSkeleton } from "@/src/entity/user"
@@ -12,7 +11,7 @@ export const Header = async () => {
   const { user, isAuth } = await getUserProfile()
 
   return (
-    <header className="mb-5 p-2 sm:p-4">
+    <header className="mb-5 p-2">
       <nav className="container mx-auto flex items-center justify-between rounded-xl border border-border bg-background px-4 py-2.5 shadow-sm">
         <Link
           href="/"
@@ -25,7 +24,7 @@ export const Header = async () => {
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          <ProjectSelector className="hidden sm:flex" />
+          {/*<ProjectSelector className="hidden sm:flex" />*/}
 
           {!isAuth ? (
             <AuthButton className="hidden sm:inline-flex" />

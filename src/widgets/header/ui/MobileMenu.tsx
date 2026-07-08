@@ -9,7 +9,6 @@ import {
   DrawerHeader,
   DrawerClose,
 } from "@/src/shared/ui"
-import { ProjectSelector } from "./ProjectSelector"
 import Link from "next/link"
 import { DRAWER_ACCOUNT_LINKS } from "../model/const"
 import { PAGES_CONFIG } from "@/src/shared/configs/pages"
@@ -28,7 +27,7 @@ export const MobileMenu = ({ isAuth }: MobileMenuProps) => {
       </DrawerTrigger>
       <DrawerContent className="flex w-full! flex-col">
         <DrawerHeader className="flex flex-row items-center justify-between gap-3 border-b">
-          <ProjectSelector />
+          {/*<ProjectSelector />*/}
           <DrawerClose asChild>
             <Button className="rounded-md" variant="ghost" size="icon">
               <X />
