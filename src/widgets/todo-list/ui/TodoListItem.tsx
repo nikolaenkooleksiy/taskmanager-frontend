@@ -14,7 +14,6 @@ import { useState } from "react"
 export const TodoListItem = ({ todo }: { todo: Todo }) => {
   const [isOpen, setIsOpen] = useState(false)
 
-
   const formattedDate = new Intl.DateTimeFormat("uk-UA", {
     day: "numeric",
     month: "long",

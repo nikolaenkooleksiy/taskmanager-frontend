@@ -38,7 +38,7 @@ export default function RootLayout({
         spaceGrotesk.variable
       )}
     >
-      <body >
+      <body>
         <Header />
         <main className="flex-1">{children}</main>
       </body>

@@ -40,6 +40,7 @@ export const CreateTodoDialog = () => {
       title: "",
       description: "",
     },
+    mode: "onSubmit",
   })
 
   const onSubmit = async (data: CreateTodoInput) => {
@@ -86,7 +87,9 @@ export const CreateTodoDialog = () => {
             name="description"
             render={({ field }) => (
               <Field>
-                <FieldLabel htmlFor="description">Description</FieldLabel>
+                <FieldLabel className="" htmlFor="description">
+                 Description
+                </FieldLabel>
                 <Textarea
                   id="description"
                   placeholder="Enter task description (optional)"

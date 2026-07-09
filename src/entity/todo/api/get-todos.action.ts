@@ -19,7 +19,7 @@ export async function getUserTodos() {
     return []
   }
 
-  const todos = (await res.json()) as unknown as Todo
+  const todos = (await res.json()) as unknown as Todo[]
 
   return todos
 }
