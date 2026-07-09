@@ -1,8 +1,8 @@
-import { z } from "zod"
+import { z as zod } from "zod/v4"
 
-export const createTodoSchema = z.object({
-  title: z.string().min(3, "Title must contain at least 3 characters"),
-  description: z.string().optional(),
+export const createTodoSchema = zod.object({
+  title: zod.string().min(3, "Title must contain at least 3 characters"),
+  description: zod.string().nullable(),
 })
 
-export type CreateTodoInput = z.infer<typeof createTodoSchema>
+export type CreateTodoInput = zod.infer<typeof createTodoSchema>

@@ -1,6 +1,12 @@
 "use client"
 
-import { Todo, TodoCard } from "@/src/entity/todo"
+import {
+  Todo,
+  TodoCard,
+  UpdateTodoInput,
+  updateTodoSchema,
+} from "@/src/entity/todo"
+import { zodResolver } from "@/src/shared/lib/zod-resolver"
 import {
   Drawer,
   DrawerClose,
@@ -17,6 +23,7 @@ import {
 } from "@/src/shared/ui"
 import { CalendarDays, X } from "lucide-react"
 import { useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 
 export const TodoListItem = ({ todo }: { todo: Todo }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -28,6 +35,15 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
     hour: "2-digit",
     minute: "2-digit",
   }).format(new Date(todo.createdAt))
+
+  const { control } = useForm<UpdateTodoInput>({
+    defaultValues: {
+      description: todo.description,
+      title: todo.title,
+    },
+    resolver: zodResolver(updateTodoSchema),
+    mode: "onSubmit",
+  })
 
   return (
     <li>
@@ -60,22 +76,37 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
             <form action="">
               <FieldSet>
                 <FieldGroup>
-                  <Field>
-                    <FieldLabel htmlFor="title">Title</FieldLabel>
-                    <FieldContent>
-                      <Input defaultValue={todo.title} />
-                    </FieldContent>
-                  </Field>
+                  <Controller
+                    control={control}
+                    name="title"
+                    render={({ field }) => (
+                      <Field>
+                        <FieldLabel htmlFor="title">Title</FieldLabel>
+                        <FieldContent>
+                          <Input {...field} />
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
 
-                  <Field>
-                    <FieldLabel htmlFor="description">Description</FieldLabel>
-                    <FieldContent>
-                      <Textarea
-                        className="h-60 overflow-y-auto"
-                        defaultValue={todo.description ?? ""}
-                      />
-                    </FieldContent>
-                  </Field>
+                  <Controller
+                    control={control}
+                    name="description"
+                    render={({ field }) => (
+                      <Field>
+                        <FieldLabel htmlFor="description">
+                          Description
+                        </FieldLabel>
+                        <FieldContent>
+                          <Textarea
+                            className="h-40 overflow-y-auto"
+                            {...field}
+                            value={field.value ?? ""}
+                          />
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
                 </FieldGroup>
               </FieldSet>
             </form>
