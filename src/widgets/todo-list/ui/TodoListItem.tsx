@@ -8,6 +8,7 @@ import {
 } from "@/src/entity/todo"
 import { zodResolver } from "@/src/shared/lib/zod-resolver"
 import {
+  Button,
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -22,8 +23,12 @@ import {
   Textarea,
 } from "@/src/shared/ui"
 import { CalendarDays, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
+
+import { API_URL } from "@/src/shared/constants"
+import { cn } from "@/src/shared/lib"
+import { useCompletion } from "@ai-sdk/react"
 
 export const TodoListItem = ({ todo }: { todo: Todo }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -36,7 +41,7 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
     minute: "2-digit",
   }).format(new Date(todo.createdAt))
 
-  const { control } = useForm<UpdateTodoInput>({
+  const { control, watch, setValue } = useForm<UpdateTodoInput>({
     defaultValues: {
       description: todo.description,
       title: todo.title,
@@ -44,6 +49,24 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
     resolver: zodResolver(updateTodoSchema),
     mode: "onSubmit",
   })
+
+  const [todoTitle, todoDescription] = watch(["title", "description"])
+
+  const { completion, complete, isLoading } = useCompletion({
+    api: `${API_URL}/todo/generate-description/${todo.id}`,
+
+    credentials: "include",
+    streamProtocol: "text",
+  })
+
+  useEffect(() => {
+    if (completion) {
+      setValue("description", completion, {
+        shouldDirty: true,
+        shouldValidate: true,
+      })
+    }
+  }, [completion, setValue])
 
   return (
     <li>
@@ -60,6 +83,7 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
               <li className="flex items-center gap-1 text-sm">
                 <CalendarDays className="size-4" /> {formattedDate}
               </li>
+
               {/*<li className="flex text-sm items-center gap-1">
                   <CalendarClock  className="size-4" /> {formattedDate}
                 </li>*/}
@@ -94,9 +118,28 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
                     name="description"
                     render={({ field }) => (
                       <Field>
-                        <FieldLabel htmlFor="description">
-                          Description
-                        </FieldLabel>
+                        <div className="flex items-center justify-between">
+                          <FieldLabel htmlFor="description">
+                            Description
+                          </FieldLabel>
+
+                          <Button
+                            onClick={async (e) => {
+                              e.preventDefault()
+                              await complete("xD", {
+                                body: {
+                                  title: todoTitle,
+                                  description: todoDescription,
+                                },
+                              })
+                            }}
+                            variant="link"
+                            type="button"
+                            className={cn(isLoading && "animate-pulse")}
+                          >
+                            Generate via AI
+                          </Button>
+                        </div>
                         <FieldContent>
                           <Textarea
                             className="h-40 overflow-y-auto"
