@@ -1,23 +1,30 @@
 "use client"
 
 import {
+  Button,
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
   CardFooter,
+  CardHeader,
+  CardTitle,
   DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
-  Button,
 } from "@/src/shared/ui"
+import { CalendarDays, EllipsisVertical, Trash } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { Todo } from "../model/schemas/todo.schema"
-import { CalendarDays, EllipsisVertical } from "lucide-react"
 
 interface TodoCardProps {
   todo: Todo
+
+  onDelete: (todoId: string) => Promise<void>
 }
 
-export const TodoCard = ({ todo }: TodoCardProps) => {
+export const TodoCard = ({ todo, onDelete }: TodoCardProps) => {
+  const router = useRouter()
+
   return (
     <Card
       className="relative flex h-42.5 justify-between"
@@ -25,11 +32,13 @@ export const TodoCard = ({ todo }: TodoCardProps) => {
       size="sm"
     >
       <CardHeader className="flex items-center justify-between border-b">
-        <CardTitle>{todo.title}</CardTitle>
+        <CardTitle className="line-clamp-1">{todo.title}</CardTitle>
 
         <DropdownMenu>
           <DropdownMenuTrigger
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
             className="absolute top-1 right-1 z-10"
             asChild
           >
@@ -37,6 +46,18 @@ export const TodoCard = ({ todo }: TodoCardProps) => {
               <EllipsisVertical />
             </Button>
           </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={async (e) => {
+                e.stopPropagation()
+                await onDelete(todo.id)
+                router.refresh()
+              }}
+            >
+              <Trash /> Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>
       <CardContent>

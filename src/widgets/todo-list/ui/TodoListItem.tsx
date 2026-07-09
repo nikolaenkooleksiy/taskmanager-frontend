@@ -26,6 +26,7 @@ import { CalendarDays, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
+import { deleteTodoAction } from "@/src/entity/todo/api/delete-todo.action"
 import { API_URL } from "@/src/shared/constants"
 import { cn } from "@/src/shared/lib"
 import { useCompletion } from "@ai-sdk/react"
@@ -73,7 +74,7 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
       <Drawer direction="bottom" open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
           <div className="cursor-pointer">
-            <TodoCard todo={todo} />
+            <TodoCard onDelete={deleteTodoAction} todo={todo} />
           </div>
         </DrawerTrigger>
 
