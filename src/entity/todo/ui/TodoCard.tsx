@@ -1,5 +1,6 @@
 "use client"
 
+import { ActionResult } from "@/src/shared/types"
 import {
   Button,
   Card,
@@ -19,7 +20,7 @@ import { Todo } from "../model/schemas/todo.schema"
 interface TodoCardProps {
   todo: Todo
 
-  onDelete: (todoId: string) => Promise<void>
+  onDelete: (todoId: string) => Promise<ActionResult<Todo>>
 }
 
 export const TodoCard = ({ todo, onDelete }: TodoCardProps) => {

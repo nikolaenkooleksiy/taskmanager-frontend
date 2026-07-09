@@ -23,13 +23,15 @@ import {
   Textarea,
 } from "@/src/shared/ui"
 import { CalendarDays, X } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 import { deleteTodoAction } from "@/src/entity/todo/api/delete-todo.action"
+import { updateTodoAction } from "@/src/entity/todo/api/update-todo.action"
 import { API_URL } from "@/src/shared/constants"
-import { cn } from "@/src/shared/lib"
+import { cn, useDebounce } from "@/src/shared/lib"
 import { useCompletion } from "@ai-sdk/react"
+import { toast } from "sonner"
 
 export const TodoListItem = ({ todo }: { todo: Todo }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -52,6 +54,21 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
   })
 
   const [todoTitle, todoDescription] = watch(["title", "description"])
+
+  const isInitialRender = useRef(true)
+  const watchedValues = watch()
+  const debouncedJson = useDebounce(JSON.stringify(watchedValues), 500)
+
+  useEffect(() => {
+    if (!isInitialRender.current) {
+      const save = async () => {
+        await updateTodoAction(todo.id, JSON.parse(debouncedJson))
+        toast.success("Todo updated successfully", { id: "update-todo" })
+      }
+      save()
+    }
+    isInitialRender.current = false
+  }, [debouncedJson, todo.id])
 
   const { completion, complete, isLoading } = useCompletion({
     api: `${API_URL}/todo/generate-description/${todo.id}`,

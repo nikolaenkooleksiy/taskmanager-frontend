@@ -4,6 +4,7 @@ import "./globals.css"
 import { cn } from "@/src/shared/lib"
 import { Metadata } from "next"
 import { Header } from "@/src/widgets/header"
+import { Toaster } from "sonner"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
       <body>
         <Header />
         <main className="flex-1">{children}</main>
+        <Toaster position="bottom-right" />
       </body>
     </html>
   )
