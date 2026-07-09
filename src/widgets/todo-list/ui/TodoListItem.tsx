@@ -3,12 +3,19 @@
 import { Todo, TodoCard } from "@/src/entity/todo"
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
+  Field,
+  FieldContent,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+  Input,
+  Textarea,
 } from "@/src/shared/ui"
+import { CalendarDays, X } from "lucide-react"
 import { useState } from "react"
 
 export const TodoListItem = ({ todo }: { todo: Todo }) => {
@@ -24,23 +31,54 @@ export const TodoListItem = ({ todo }: { todo: Todo }) => {
 
   return (
     <li>
-      <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer direction="bottom" open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
           <div className="cursor-pointer">
             <TodoCard todo={todo} />
           </div>
         </DrawerTrigger>
 
-        <DrawerContent className="mx-auto w-full! px-2 pb-4 sm:max-w-120! sm:px-4 md:max-w-170!">
-          <DrawerHeader className="text-left">
-            <DrawerTitle className="text-2xl">{todo.title}</DrawerTitle>
-            <DrawerDescription className="mt-4 text-base wrap-break-word whitespace-pre-wrap text-muted-foreground">
-              {todo.description || " Опис відсутній"}
-            </DrawerDescription>
+        <DrawerContent className="mx-auto h-full! max-h-max! w-full! overflow-y-auto rounded-none sm:max-h-125! lg:max-h-150! lg:max-w-205!">
+          <DrawerHeader className="flex flex-row justify-between border-b p-2">
+            <ul className="flex flex-col gap-4 text-muted-foreground sm:flex-row">
+              <li className="flex items-center gap-1 text-sm">
+                <CalendarDays className="size-4" /> {formattedDate}
+              </li>
+              {/*<li className="flex text-sm items-center gap-1">
+                  <CalendarClock  className="size-4" /> {formattedDate}
+                </li>*/}
+            </ul>
+
+            <div>
+              <DrawerClose>
+                <X size={16} />
+              </DrawerClose>
+            </div>
           </DrawerHeader>
 
-          <div className="px-4 py-4 text-sm text-muted-foreground">
-            <p>Створено: {formattedDate}</p>
+          <div className="p-2">
+            <form action="">
+              <FieldSet>
+                <FieldGroup>
+                  <Field>
+                    <FieldLabel htmlFor="title">Title</FieldLabel>
+                    <FieldContent>
+                      <Input defaultValue={todo.title} />
+                    </FieldContent>
+                  </Field>
+
+                  <Field>
+                    <FieldLabel htmlFor="description">Description</FieldLabel>
+                    <FieldContent>
+                      <Textarea
+                        className="h-60 overflow-y-auto"
+                        defaultValue={todo.description ?? ""}
+                      />
+                    </FieldContent>
+                  </Field>
+                </FieldGroup>
+              </FieldSet>
+            </form>
           </div>
         </DrawerContent>
       </Drawer>
