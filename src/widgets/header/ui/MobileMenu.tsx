@@ -1,23 +1,27 @@
 "use client"
 
-import { Menu, X } from "lucide-react"
+import { Project } from "@/src/entity/projects"
+import { PAGES_CONFIG } from "@/src/shared/configs/pages"
 import {
   Button,
   Drawer,
-  DrawerTrigger,
+  DrawerClose,
   DrawerContent,
   DrawerHeader,
-  DrawerClose,
+  DrawerTrigger,
+  Show,
 } from "@/src/shared/ui"
+import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { DRAWER_ACCOUNT_LINKS } from "../model/const"
-import { PAGES_CONFIG } from "@/src/shared/configs/pages"
+import { ProjectSelector } from "./ProjectSelector"
 
 interface MobileMenuProps {
   isAuth: boolean
+  projects: Project[]
 }
 
-export const MobileMenu = ({ isAuth }: MobileMenuProps) => {
+export const MobileMenu = ({ isAuth, projects }: MobileMenuProps) => {
   return (
     <Drawer direction="right">
       <DrawerTrigger className="sm:hidden" asChild>
@@ -27,7 +31,9 @@ export const MobileMenu = ({ isAuth }: MobileMenuProps) => {
       </DrawerTrigger>
       <DrawerContent className="flex w-full! flex-col">
         <DrawerHeader className="flex flex-row items-center justify-between gap-3 border-b">
-          {/*<ProjectSelector />*/}
+          <Show when={isAuth}>
+            <ProjectSelector projects={projects} />
+          </Show>
           <DrawerClose asChild>
             <Button className="rounded-md" variant="ghost" size="icon">
               <X />
