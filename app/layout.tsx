@@ -1,10 +1,10 @@
 import { Geist_Mono, Space_Grotesk } from "next/font/google"
 
-import "./globals.css"
 import { cn } from "@/src/shared/lib"
-import { Metadata } from "next"
 import { Header } from "@/src/widgets/header"
+import { Metadata } from "next"
 import { Toaster } from "sonner"
+import "./globals.css"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
