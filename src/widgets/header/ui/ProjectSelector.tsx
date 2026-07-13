@@ -1,19 +1,19 @@
 "use client"
 
-import { useState } from "react"
-
 import { Project } from "@/src/entity/projects"
+import { CreateTodoDialog } from "@/src/features/create-project"
+import { cn } from "@/src/shared/lib"
 import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/src/shared/ui"
 import { ChevronsUpDown } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 interface ProjectSelectorProps {
   className?: string
@@ -24,39 +24,51 @@ export const ProjectSelector = ({
   className,
   projects,
 }: ProjectSelectorProps) => {
-  const [selectedId, setSelectedId] = useState("")
+  const pathname = usePathname()
+
+  const selectedId = pathname.replace("/project/", "")
 
   const selectedProject = projects.find((p) => p.id === selectedId)
 
   return (
     <>
       {projects.length ? (
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger
-            className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent ${className}`}
+            className={cn(
+              "flex w-35 items-center justify-between gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent",
+              className
+            )}
           >
             <div className="flex flex-col items-start">
               <span className="font-medium">{selectedProject?.name}</span>
             </div>
-            <ChevronsUpDown className="ml-4 size-4 shrink-0 text-muted-foreground" />
+            <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuLabel>Projects</DropdownMenuLabel>
+          <DropdownMenuContent className="w-40" align="start">
             <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup
-              value={selectedId}
-              onValueChange={setSelectedId}
-            >
+
+            <DropdownMenuRadioGroup value={selectedId}>
               {projects.map((project) => (
-                <DropdownMenuRadioItem key={project.id} value={project.id}>
-                  {project.name}
+                <DropdownMenuRadioItem
+                  className="p-0"
+                  key={project.id}
+                  value={project.id}
+                >
+                  <Link className="p-2" href={`/project/${project.id}`}>
+                    {project.name}
+                  </Link>
                 </DropdownMenuRadioItem>
               ))}
             </DropdownMenuRadioGroup>
+
+            <DropdownMenuSeparator />
+
+            <CreateTodoDialog className="w-full" buttonVariant="ghost" />
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Button>Create Project </Button>
+        <CreateTodoDialog />
       )}
     </>
   )

@@ -26,7 +26,6 @@ export const Header = async () => {
             Task Manager
           </span>
         </Link>
-
         <div className="flex items-center gap-2 sm:gap-4">
           <Show when={isAuth}>
             <div className="hidden sm:inline-flex">

@@ -1,10 +1,10 @@
 "use client"
 
 import {
-  CreateTodoInput,
-  createTodoAction,
-  createTodoSchema,
-} from "@/src/entity/todo"
+  createProjectAction,
+  CreateProjectInput,
+  createProjectSchema,
+} from "@/src/entity/projects"
 import { zodResolver } from "@/src/shared/lib/zod-resolver"
 import {
   Button,
@@ -18,15 +18,21 @@ import {
   FieldError,
   FieldLabel,
   Input,
-  Spinner,
   Textarea,
 } from "@/src/shared/ui"
 import { Plus } from "lucide-react"
-import dynamic from "next/dynamic"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
-export const CreateTodoDialog = () => {
+interface CreateProjectDialogProps {
+  className?: string
+  buttonVariant?: "default" | "outline" | "ghost" | "link" | "destructive"
+}
+
+export const CreateTodoDialog = ({
+  className,
+  buttonVariant,
+}: CreateProjectDialogProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const {
@@ -34,17 +40,17 @@ export const CreateTodoDialog = () => {
     handleSubmit,
     formState: { isValid },
     reset,
-  } = useForm<CreateTodoInput>({
-    resolver: zodResolver(createTodoSchema),
+  } = useForm<CreateProjectInput>({
+    resolver: zodResolver(createProjectSchema),
     defaultValues: {
-      title: "",
+      name: "",
       description: "",
     },
     mode: "onSubmit",
   })
 
-  const onSubmit = async (data: CreateTodoInput) => {
-    await createTodoAction(data)
+  const onSubmit = async (data: CreateProjectInput) => {
+    await createProjectAction(data)
     setIsOpen(false)
     reset()
   }
@@ -54,25 +60,25 @@ export const CreateTodoDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="size-4" />
-          Create Task
+        <Button variant={buttonVariant} size="sm" className={className}>
+          <Plus className="size-3.5" />
+          Create Project
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle>Create Task</DialogTitle>
+          <DialogTitle>Create Project</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <Controller
             control={control}
-            name="title"
+            name="name"
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel htmlFor="title">
-                  Title <span className="text-destructive">*</span>
+                <FieldLabel htmlFor="name">
+                  Name <span className="text-destructive">*</span>
                 </FieldLabel>
-                <Input id="title" placeholder="Enter task title" {...field} />
+                <Input id="name" placeholder="Enter project name" {...field} />
                 {fieldState.error && (
                   <FieldError
                     errors={[{ message: fieldState.error.message }]}
@@ -92,7 +98,7 @@ export const CreateTodoDialog = () => {
                 </FieldLabel>
                 <Textarea
                   id="description"
-                  placeholder="Enter task description (optional)"
+                  placeholder="Enter project description (optional)"
                   className="min-h-20 resize-none"
                   {...field}
                   value={field.value || ""}
@@ -118,19 +124,3 @@ export const CreateTodoDialog = () => {
     </Dialog>
   )
 }
-
-export const CreateTodoDialogLazy = dynamic(
-  () =>
-    import("@/src/features/create-todo/ui/CreateTodoDialog").then(
-      (mod) => mod.CreateTodoDialog
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <Button disabled>
-        <Spinner className="size-4" />
-        Create Task
-      </Button>
-    ),
-  }
-)
