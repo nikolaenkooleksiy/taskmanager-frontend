@@ -1,8 +1,8 @@
 "use server"
 
 import { API_URL } from "@/src/shared/constants"
-import { User } from "../model/schemas/user.schema"
 import { cookies } from "next/headers"
+import { User } from "../model/schemas/user.schema"
 
 export async function getUserProfile() {
   const accessToken = (await cookies()).get("accessToken")?.value

@@ -1,10 +1,20 @@
 import { Geist_Mono, Space_Grotesk } from "next/font/google"
 
+import { AuthButton } from "@/src/core/auth"
+import { getUserProfile } from "@/src/entity/user"
 import { cn } from "@/src/shared/lib"
-import { Header } from "@/src/widgets/header"
+import {
+  Sidebar,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenuSkeleton,
+  SidebarProvider,
+} from "@/src/shared/ui"
 import { Metadata } from "next"
+import { Suspense } from "react"
 import { Toaster } from "sonner"
 import "./globals.css"
+import { UserNav } from "./UserNav"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -23,11 +33,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { user, isAuth } = await getUserProfile()
+
+  console.log(user)
+
   return (
     <html
       lang="en"
@@ -40,8 +54,17 @@ export default function RootLayout({
       )}
     >
       <body>
-        <Header />
-        <main className="flex-1">{children}</main>
+        <SidebarProvider>
+          <Sidebar>
+            <SidebarHeader className="border-b">
+              <Suspense fallback={<SidebarMenuSkeleton />}></Suspense>
+            </SidebarHeader>
+
+            <SidebarFooter className="mt-auto border-t">
+              {isAuth ? <UserNav user={user} /> : <AuthButton />}
+            </SidebarFooter>
+          </Sidebar>
+        </SidebarProvider>
         <Toaster position="bottom-right" />
       </body>
     </html>
