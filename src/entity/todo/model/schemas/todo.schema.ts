@@ -1,9 +1,9 @@
 import { z as zod } from "zod/v4"
 
 export const todoStatusSchema = zod.enum([
-  "PENDING",
-  "IN_PROGRESS",
-  "COMPLETED",
+  "Pending",
+  "InProgress",
+  "Completed",
 ])
 
 export const todoSchema = zod.object({
