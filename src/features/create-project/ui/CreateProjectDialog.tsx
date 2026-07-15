@@ -21,24 +21,19 @@ import {
   Textarea,
 } from "@/src/shared/ui"
 import { Plus } from "lucide-react"
+import { useParams } from "next/navigation"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
-interface CreateProjectDialogProps {
-  className?: string
-  buttonVariant?: "default" | "outline" | "ghost" | "link" | "destructive"
-}
+export const CreateProjectDialog = () => {
+  const { teamId } = useParams()
 
-export const CreateTodoDialog = ({
-  className,
-  buttonVariant,
-}: CreateProjectDialogProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const {
     control,
     handleSubmit,
-    formState: { isValid },
+    formState: { isSubmitting },
     reset,
   } = useForm<CreateProjectInput>({
     resolver: zodResolver(createProjectSchema),
@@ -50,19 +45,16 @@ export const CreateTodoDialog = ({
   })
 
   const onSubmit = async (data: CreateProjectInput) => {
-    await createProjectAction(data)
+    await createProjectAction(teamId as string, data)
     setIsOpen(false)
     reset()
   }
 
-  const isDisabled = !isValid
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={buttonVariant} size="sm" className={className}>
+        <Button size="sm" variant="ghost">
           <Plus className="size-3.5" />
-          Create Project
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-125">
@@ -115,7 +107,7 @@ export const CreateTodoDialog = ({
             >
               Cancel
             </Button>
-            <Button disabled={isDisabled} type="submit">
+            <Button type="submit" disabled={isSubmitting}>
               Create
             </Button>
           </DialogFooter>

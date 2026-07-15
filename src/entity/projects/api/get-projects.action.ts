@@ -4,10 +4,10 @@ import { API_URL } from "@/src/shared/constants"
 import { cookies } from "next/headers"
 import { Project } from "../model/schemas/project.schema"
 
-export async function getProjects() {
+export async function getProjects(teamId: string): Promise<Project[]> {
   const accessToken = (await cookies()).get("accessToken")?.value
 
-  const res = await fetch(`${API_URL}/project`, {
+  const res = await fetch(`${API_URL}/project/${teamId}`, {
     headers: {
       "Content-Type": "application/json",
       Cookie: `accessToken=${accessToken}`,

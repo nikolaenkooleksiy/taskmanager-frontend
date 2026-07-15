@@ -8,6 +8,7 @@ import { CreateProjectInput } from "../model/schemas/create-project.schema"
 import { Project } from "../model/schemas/project.schema"
 
 export async function createProjectAction(
+  teamId: string,
   data: CreateProjectInput
 ): Promise<ActionResult<Project>> {
   try {
@@ -19,9 +20,11 @@ export async function createProjectAction(
         "Content-Type": "application/json",
         Cookie: `accessToken=${accessToken}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ teamId, ...data }),
       cache: "no-store",
     })
+
+    console.log(res)
 
     const responseData = await res.json()
 
