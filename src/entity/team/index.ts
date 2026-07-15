@@ -3,3 +3,4 @@ export * from "./model/schemas/create-team.schema"
 export * from "./model/schemas/team.schema"
 
 export { createTeamAction } from "./api/create-team.action"
+export { deleteTeamAction } from "./api/delete-team.action"

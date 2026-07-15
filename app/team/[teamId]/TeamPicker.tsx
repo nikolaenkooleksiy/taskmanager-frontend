@@ -1,6 +1,6 @@
 "use client"
 
-import { Team } from "@/src/entity/team"
+import { deleteTeamAction, Team } from "@/src/entity/team"
 import { CreateTeamDialog } from "@/src/features/create-team"
 import {
   DropdownMenu,
@@ -106,7 +106,7 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
                     <DropdownMenuItem
                       onSelect={(e) => {
                         e.stopPropagation()
-                        console.log("Remove team:", team.id)
+                        deleteTeamAction(team.id)
                       }}
                       className="cursor-pointer gap-2 text-destructive focus:bg-destructive/10 focus:text-destructive"
                     >
