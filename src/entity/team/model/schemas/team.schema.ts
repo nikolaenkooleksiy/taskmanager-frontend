@@ -1,6 +1,6 @@
 import { z as zod } from "zod/v4"
 
-const teamTypeEnum = zod.enum(["Startup", "Enterprise"])
+const teamTypeEnum = zod.enum(["Startup", "Enterprise", "Free"])
 
 export const teamSchema = zod.object({
   id: zod.uuid(),
