@@ -1,7 +1,7 @@
 "use client"
 
 import { deleteTeamAction, Team } from "@/src/entity/team"
-import { CreateTeamDialog } from "@/src/features/create-team"
+import { CreateTeamEntry } from "@/src/features/create-team"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -114,7 +114,7 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
 
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-              <CreateTeamDialog />
+              <CreateTeamEntry />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

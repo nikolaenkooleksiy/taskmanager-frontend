@@ -1,1 +1,1 @@
-export { CreateTeamDialog } from "./ui/CreateTeamDialog"
+export { CreateTeamEntry } from "./ui/CreateTeamEntry"
