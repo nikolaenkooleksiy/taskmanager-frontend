@@ -19,34 +19,11 @@ import {
   FieldError,
   FieldLabel,
   Input,
-  RadioGroup,
-  RadioGroupItem,
   Spinner,
 } from "@/src/shared/ui"
-import { Building2, Plus, Rocket, Sparkles } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-
-const teamTypeOptions = [
-  {
-    value: "Free" as const,
-    icon: Sparkles,
-    label: "Free",
-    description: "For small teams getting started",
-  },
-  {
-    value: "Startup" as const,
-    icon: Rocket,
-    label: "Startup",
-    description: "For growing companies",
-  },
-  {
-    value: "Enterprise" as const,
-    icon: Building2,
-    label: "Enterprise",
-    description: "For large organizations",
-  },
-] as const
 
 export const CreateTeamDialog = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -60,7 +37,6 @@ export const CreateTeamDialog = () => {
     resolver: zodResolver(createTeamSchema),
     defaultValues: {
       name: "",
-      type: "Free",
     },
     mode: "onChange",
   })
@@ -106,10 +82,7 @@ export const CreateTeamDialog = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <Controller
             control={control}
             name="name"
@@ -118,63 +91,12 @@ export const CreateTeamDialog = () => {
                 <FieldLabel htmlFor="name">
                   Name <span className="text-destructive">*</span>
                 </FieldLabel>
-                <Input
-                  id="name"
-                  placeholder="Enter team name"
-                  {...field}
-                />
+                <Input id="name" placeholder="Enter team name" {...field} />
                 {fieldState.error && (
                   <FieldError
                     errors={[{ message: fieldState.error.message }]}
                   />
                 )}
-              </Field>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="type"
-            render={({ field }) => (
-              <Field>
-                <FieldLabel>Team Type</FieldLabel>
-
-                <RadioGroup
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  className="grid grid-cols-3 gap-3"
-                >
-                  {teamTypeOptions.map((option) => {
-                    const Icon = option.icon
-                    const isSelected = field.value === option.value
-                    return (
-                      <label
-                        key={option.value}
-                        className="flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 p-4 text-center transition-all hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary/5"
-                      >
-                        <RadioGroupItem
-                          value={option.value}
-                          className="sr-only"
-                        />
-                        <Icon
-                          className={`size-5 ${
-                            isSelected
-                              ? "text-primary"
-                              : "text-muted-foreground"
-                          }`}
-                        />
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-sm font-medium">
-                            {option.label}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            {option.description}
-                          </span>
-                        </div>
-                      </label>
-                    )
-                  })}
-                </RadioGroup>
               </Field>
             )}
           />

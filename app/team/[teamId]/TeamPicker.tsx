@@ -46,9 +46,6 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
                 <span className="truncate font-semibold">
                   {activeTeam?.name || "Select Team"}
                 </span>
-                <span className="truncate text-xs text-muted-foreground">
-                  {activeTeam?.type || "Free"}
-                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4 opacity-50" />
             </SidebarMenuButton>
@@ -72,9 +69,6 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
               >
                 <div className="flex flex-col text-left">
                   <span className="text-sm font-medium">{team.name}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {team.type}
-                  </span>
                 </div>
 
                 <DropdownMenu>
