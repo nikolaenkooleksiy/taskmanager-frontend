@@ -13,6 +13,7 @@ export * from "./textarea"
 
 export * from "./breadcrumb"
 export * from "./collapsible"
+export * from "./popover"
 export * from "./radio-group"
 export * from "./separator"
 export * from "./sheet"
