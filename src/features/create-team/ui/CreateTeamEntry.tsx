@@ -1,7 +1,7 @@
 "use client"
 
 import { Dialog, DialogContent, DialogFooter } from "@/src/shared/ui"
-import { useCreateTeam } from "../model/useCreateTeam"
+import { useCreateTeam } from "../model/hooks/useCreateTeam"
 import { CancelButton } from "./CancelButton"
 import { CreateTeamDialogHeader } from "./CreateTeamDialogHeader"
 import { CreateTeamDialogTrigger } from "./CreateTeamDialogTrigger"
@@ -27,7 +27,6 @@ export const CreateTeamEntry = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <TeamTitleField control={control} />
-
           <DialogFooter>
             <CancelButton
               handleClose={() => handleOpenChange(false)}
