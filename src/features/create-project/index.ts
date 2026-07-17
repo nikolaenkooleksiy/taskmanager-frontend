@@ -1,1 +1,1 @@
-export {CreateProjectDialog} from "./ui/CreateProjectDialog"
+export {CreateProjectEntry} from "./ui/CreateProjectEntry"

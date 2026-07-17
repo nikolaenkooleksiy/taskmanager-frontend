@@ -8,14 +8,21 @@ import {
 } from "@/src/shared/ui"
 import { Icon } from "@iconify/react"
 import { useState } from "react"
+import { cn } from "../lib"
 
 interface IconPickerProps {
   value: string
   onChange: (value: string) => void
   icons: string[]
+  className?: string
 }
 
-export const IconPicker = ({ value, onChange, icons }: IconPickerProps) => {
+export const IconPicker = ({
+  value,
+  onChange,
+  icons,
+  className = "",
+}: IconPickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -24,9 +31,9 @@ export const IconPicker = ({ value, onChange, icons }: IconPickerProps) => {
         <Button
           type="button"
           variant="outline"
-          className="size-10 shrink-0 p-0"
+          className={cn("size-10 shrink-0 p-0", className)}
         >
-          <Icon icon={value} className="size-5" />
+          <Icon icon={!value ? icons[0] : value} className="size-5" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

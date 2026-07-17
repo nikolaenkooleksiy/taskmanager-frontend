@@ -1,7 +1,7 @@
 "use client"
 
 import { Project } from "@/src/entity/projects"
-import { CreateProjectDialog } from "@/src/features/create-project"
+import { CreateProjectEntry } from "@/src/features/create-project"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,7 +39,7 @@ export function NavProjects({ projects }: NavProjectsProps) {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <CreateProjectDialog />
+              <CreateProjectEntry />
             </TooltipTrigger>
             <TooltipContent>Create a new project</TooltipContent>
           </Tooltip>
