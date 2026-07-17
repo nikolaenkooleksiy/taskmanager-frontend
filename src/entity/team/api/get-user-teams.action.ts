@@ -12,7 +12,7 @@ export async function getUserTeams() {
       "Content-Type": "application/json",
       Cookie: `accessToken=${accessToken}`,
     },
-    cache: "no-store",
+    next: { tags: ["user-teams"] },
   })
 
   if (!res.ok) {

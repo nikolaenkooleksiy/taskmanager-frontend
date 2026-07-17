@@ -2,7 +2,7 @@
 
 import { API_URL } from "@/src/shared/constants"
 import { ActionResult } from "@/src/shared/types"
-import { revalidatePath } from "next/cache"
+import { updateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { CreateTeamInput } from "../model/schemas/create-team.schema"
 import { Team } from "../model/schemas/team.schema"
@@ -23,8 +23,6 @@ export async function createTeamAction(
       cache: "no-store",
     })
 
-    console.log(res)
-
     const responseData = await res.json()
 
     if (!res.ok) {
@@ -34,7 +32,7 @@ export async function createTeamAction(
       }
     }
 
-    revalidatePath("/")
+    updateTag("user-teams")
 
     return {
       success: true,

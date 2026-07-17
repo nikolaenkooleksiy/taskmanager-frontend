@@ -4,11 +4,14 @@ import {
   createTeamSchema,
 } from "@/src/entity/team"
 import { zodResolver } from "@/src/shared/lib/zod-resolver"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 export const useCreateTeam = () => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const router = useRouter()
 
   const form = useForm<CreateTeamInput>({
     resolver: zodResolver(createTeamSchema),
@@ -23,6 +26,7 @@ export const useCreateTeam = () => {
       await createTeamAction(data)
       setIsOpen(false)
       form.reset()
+      router.refresh()
     } catch (error) {
       console.error("Failed to create team:", error)
     }
