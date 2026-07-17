@@ -15,6 +15,8 @@ import { NavProjects } from "./NavProjects"
 import { TeamSwitcher } from "./TeamPicker"
 import { UserNav } from "./UserNav"
 
+import { Navigation } from "./Nav"
+
 export default async function TeamLayout({
   children,
   params,
@@ -38,6 +40,7 @@ export default async function TeamLayout({
           </SidebarHeader>
 
           <SidebarContent>
+            <Navigation />
             <NavProjects projects={projects} />
           </SidebarContent>
 
