@@ -1,3 +1,5 @@
+import { getUserProfile } from "@/src/entity/user"
+import { Show } from "@/src/shared/ui"
 import {
   ArrowRight,
   CheckCircle2,
@@ -9,9 +11,16 @@ import {
   Users,
   Zap,
 } from "lucide-react"
+import { cookies } from "next/headers"
 import Link from "next/link"
 
-export default function HomePage() {
+export default async function HomePage() {
+  const cookieStore = await cookies()
+
+  const teamId = cookieStore.get("latestSelectedTeamId")?.value
+
+  const { isAuth } = await getUserProfile()
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#FAF9F6] font-sans text-slate-900 selection:bg-primary/10">
       {/* Легкий фоновый градиент (Светлая тема) */}
@@ -34,17 +43,20 @@ export default function HomePage() {
 
           <nav className="flex items-center gap-4">
             <Link
-              href="/team/44bbaa75-b515-4482-9479-35d8591e3931"
+              href={`/team/${teamId}`}
               className="inline-flex h-10 items-center justify-center rounded-xl bg-slate-950 px-5 text-sm font-medium text-white shadow-md transition-all hover:scale-[1.02] hover:bg-slate-800 active:scale-[0.98]"
             >
               Go to App
             </Link>
-            <Link
-              href="/login"
-              className="inline-flex h-10 items-center justify-center rounded-xl bg-slate-950 px-5 text-sm font-medium text-white shadow-md transition-all hover:scale-[1.02] hover:bg-slate-800 active:scale-[0.98]"
-            >
-              Sign In
-            </Link>
+
+            <Show when={isAuth}>
+              <Link
+                href="/login"
+                className="inline-flex h-10 items-center justify-center rounded-xl bg-slate-950 px-5 text-sm font-medium text-white shadow-md transition-all hover:scale-[1.02] hover:bg-slate-800 active:scale-[0.98]"
+              >
+                Sign In
+              </Link>
+            </Show>
           </nav>
         </div>
       </header>

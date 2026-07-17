@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteTeamAction, Team } from "@/src/entity/team"
+import { deleteTeamAction, saveLatestTeamAction, Team } from "@/src/entity/team"
 import { CreateTeamEntry } from "@/src/features/create-team"
 import {
   DropdownMenu,
@@ -30,6 +30,7 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
   const activeTeam = teams.find((team) => team.id === currentTeamId) || teams[0]
 
   const handleTeamSelect = (teamId: string) => {
+    saveLatestTeamAction(teamId)
     router.push(`/team/${teamId}`)
   }
 
