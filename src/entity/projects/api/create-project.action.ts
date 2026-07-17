@@ -24,8 +24,6 @@ export async function createProjectAction(
       cache: "no-store",
     })
 
-    console.log(res)
-
     const responseData = await res.json()
 
     if (!res.ok) {
