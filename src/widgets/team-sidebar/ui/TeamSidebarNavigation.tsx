@@ -25,7 +25,7 @@ const NAVIGATION_ITEMS = [
   },
 ] as const
 
-export function Navigation() {
+export function TeamSidebarNavigation() {
   const { teamId } = useParams()
   const pathname = usePathname()
 
