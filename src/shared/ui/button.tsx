@@ -49,6 +49,7 @@ function Button({
   asChild = false,
   disabled = false,
   isLoading = false,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
@@ -63,23 +64,24 @@ function Button({
       data-variant={variant}
       data-size={size}
       disabled={disabled || isLoading}
-      className={cn("relative", buttonVariants({ variant, size, className }))}
+      className={cn(
+        "relative",
+        buttonVariants({ variant, size, className }),
+        isLoading &&
+          "text-transparent! [&_svg:not([data-slot=loader]_svg)]:opacity-0!"
+      )}
       {...props}
     >
       {isLoading && (
-        <span className="absolute inset-0 flex items-center justify-center">
+        <span
+          data-slot="loader"
+          className="absolute inset-0 flex items-center justify-center text-current"
+        >
           <Spinner />
         </span>
       )}
 
-      <span
-        className={cn(
-          "gap-inherit flex items-center transition-opacity",
-          isLoading && "opacity-0"
-        )}
-      >
-        {props.children}
-      </span>
+      {children}
     </Comp>
   )
 }

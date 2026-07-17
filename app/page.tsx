@@ -1,3 +1,4 @@
+import { AuthButton } from "@/src/core/auth"
 import { getUserProfile } from "@/src/entity/user"
 import { Show } from "@/src/shared/ui"
 import {
@@ -42,20 +43,17 @@ export default async function HomePage() {
           </div>
 
           <nav className="flex items-center gap-4">
-            <Link
-              href={`/team/${teamId}`}
-              className="inline-flex h-10 items-center justify-center rounded-xl bg-slate-950 px-5 text-sm font-medium text-white shadow-md transition-all hover:scale-[1.02] hover:bg-slate-800 active:scale-[0.98]"
-            >
-              Go to App
-            </Link>
-
             <Show when={isAuth}>
               <Link
-                href="/login"
+                href={`/team/${teamId}`}
                 className="inline-flex h-10 items-center justify-center rounded-xl bg-slate-950 px-5 text-sm font-medium text-white shadow-md transition-all hover:scale-[1.02] hover:bg-slate-800 active:scale-[0.98]"
               >
-                Sign In
+                Go to App
               </Link>
+            </Show>
+
+            <Show when={!isAuth}>
+              <AuthButton />
             </Show>
           </nav>
         </div>

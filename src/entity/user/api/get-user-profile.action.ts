@@ -19,7 +19,7 @@ export async function getUserProfile() {
     return { user: null, isAuth: false }
   }
 
-  const user = (await res.json()) as unknown as User
+  const user = (await res.json()) as User
 
   return { user, isAuth: !!user }
 }
