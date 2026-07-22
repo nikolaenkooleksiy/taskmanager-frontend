@@ -1,9 +1,5 @@
-import {
-  Sidebar,
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/src/shared/ui"
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/src/shared/ui"
+import { ProjectSidebar } from "@/src/widgets/project-sidebar"
 import { PropsWithChildren } from "react"
 
 interface ProjectLayoutProps {
@@ -16,7 +12,7 @@ export default async function ProjectLayout({
 }: PropsWithChildren<ProjectLayoutProps>) {
   return (
     <SidebarProvider>
-      <Sidebar></Sidebar>
+      <ProjectSidebar />
 
       <SidebarInset>
         <SidebarInset>
