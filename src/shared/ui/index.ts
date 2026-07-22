@@ -10,6 +10,7 @@ export * from "./label"
 export * from "./skeleton"
 export * from "./spinner"
 export * from "./textarea"
+export * from "./progress"
 
 export * from "./breadcrumb"
 export * from "./collapsible"
