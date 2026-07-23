@@ -14,9 +14,9 @@ export default async function TeamLayout({
         <TeamSidebar params={params} />
 
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b! transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-            <div className="flex h-16 shrink-0 items-center gap-2 px-4">
-              <SidebarTrigger className="" />
+          <header className="flex h-12 shrink-0 items-center gap-2 border-b! transition-[width,height] ease-linear">
+            <div className="flex shrink-0 items-center gap-2 px-4">
+              <SidebarTrigger />
             </div>
           </header>
           <div className="flex flex-1 flex-col p-4">{children}</div>
