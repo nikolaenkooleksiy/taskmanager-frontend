@@ -1,1 +1,1 @@
-export { CreateTodoDialogLazy } from "./ui/CreateTodoDialog"
+export { CreateTodoDialogEntry } from "./ui/CreateTodoDialogEntry"
