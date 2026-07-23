@@ -23,11 +23,14 @@ import {
 } from "@/src/shared/ui"
 import { Plus } from "lucide-react"
 import dynamic from "next/dynamic"
+import { useParams } from "next/navigation"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 export const CreateTodoDialog = () => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const { projectId } = useParams()
 
   const {
     control,
@@ -44,7 +47,7 @@ export const CreateTodoDialog = () => {
   })
 
   const onSubmit = async (data: CreateTodoInput) => {
-    await createTodoAction(data)
+    await createTodoAction(projectId as string, data)
     setIsOpen(false)
     reset()
   }

@@ -12,7 +12,10 @@ export async function getUserTodos() {
       "Content-Type": "application/json",
       Cookie: `accessToken=${accessToken}`,
     },
-    cache: "no-store",
+
+    next: {
+      tags: ["get_todos"],
+    },
   })
 
   if (!res.ok) {

@@ -1,13 +1,14 @@
 "use server"
 
 import { API_URL } from "@/src/shared/constants"
+import { ActionResult } from "@/src/shared/types"
+import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { CreateTodoInput } from "../model/schemas/create-todo.schema"
-import { revalidatePath } from "next/cache"
-import { ActionResult } from "@/src/shared/types"
 import { Todo } from "../model/schemas/todo.schema"
 
 export async function createTodoAction(
+  projectId: string,
   data: CreateTodoInput
 ): Promise<ActionResult<Todo>> {
   try {
@@ -19,7 +20,7 @@ export async function createTodoAction(
         "Content-Type": "application/json",
         Cookie: `accessToken=${accessToken}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, projectId }),
       cache: "no-store",
     })
 
@@ -32,7 +33,7 @@ export async function createTodoAction(
       }
     }
 
-    revalidatePath("/")
+    revalidateTag("get_todos", { expire: 0 })
 
     return {
       success: true,
