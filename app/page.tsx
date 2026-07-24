@@ -20,7 +20,8 @@ export default async function HomePage() {
 
   const teamId = cookieStore.get("latestSelectedTeamId")?.value
 
-  const { isAuth } = await getUserProfile()
+  const profileResult = await getUserProfile()
+  const isAuth = profileResult.success
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#FAF9F6] font-sans text-slate-900 selection:bg-primary/10">

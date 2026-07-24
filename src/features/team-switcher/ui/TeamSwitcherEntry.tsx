@@ -1,6 +1,7 @@
 "use client"
 
 import { Team } from "@/src/entity/team"
+import { ActionResult } from "@/src/shared/types"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +16,7 @@ import { TeamDropdownItem } from "./TeamDropdowmItem"
 import { TeamSwitcherTrigger } from "./TeamSwitcherTrigger"
 
 interface TeamSwitcherEntryProps {
-  teamsPromise: Promise<Team[]>
+  teamsPromise: Promise<ActionResult<Team[]>>
   createTeamSlot: React.ReactNode
 }
 

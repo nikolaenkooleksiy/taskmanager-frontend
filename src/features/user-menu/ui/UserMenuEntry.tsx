@@ -1,6 +1,6 @@
 "use client"
 
-import { User, UserInfo } from "@/src/entity/user"
+import { UserInfo } from "@/src/entity/user"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,8 +15,11 @@ import { UserMenuItem } from "./UseMenuItem"
 import { UserMenuSignOutButton } from "./UserMenuSignOutButton"
 import { UserMenuTrigger } from "./UserMenuTrigger"
 
+import { ActionResult } from "@/src/shared/types"
+import { User } from "@/src/entity/user"
+
 interface UserMenuProps {
-  userPromise: Promise<{ user: User | null; isAuth: boolean }>
+  userPromise: Promise<ActionResult<User>>
 }
 
 export const UserMenuEntry = ({ userPromise }: UserMenuProps) => {

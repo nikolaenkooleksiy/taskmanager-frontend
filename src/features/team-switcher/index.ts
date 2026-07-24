@@ -1,1 +1,1 @@
-export {TeamSwitcherEntry} from "./ui/TeamSwitcherEntry"
+export { TeamSwitcherEntry } from "./ui/TeamSwitcherEntry"

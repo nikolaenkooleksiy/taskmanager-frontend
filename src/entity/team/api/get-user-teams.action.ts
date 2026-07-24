@@ -1,25 +1,13 @@
 "use server"
 
+import { api } from "@/src/shared/api"
 import { API_URL } from "@/src/shared/constants"
-import { cookies } from "next/headers"
+import { API_TAGS } from "@/src/shared/configs/api-cache-tags/api-tags.config"
+import { ActionResult } from "@/src/shared/types"
 import { Team } from "../model/schemas/team.schema"
 
-export async function getUserTeams() {
-  const accessToken = (await cookies()).get("accessToken")?.value
-
-  const res = await fetch(`${API_URL}/team`, {
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: `accessToken=${accessToken}`,
-    },
-    next: { tags: ["user-teams"] },
+export async function getUserTeams(): Promise<ActionResult<Team[]>> {
+  return api.get<Team[]>(`${API_URL}/team`, {
+    next: { tags: [API_TAGS.GET_USER_TEAMS] },
   })
-
-  if (!res.ok) {
-    return []
-  }
-
-  const todos = (await res.json()) as unknown as Team[]
-
-  return todos
 }

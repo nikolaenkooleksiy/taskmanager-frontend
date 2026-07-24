@@ -1,28 +1,13 @@
 "use server"
 
+import { api } from "@/src/shared/api"
+import { API_TAGS } from "@/src/shared/configs/api-cache-tags/api-tags.config"
 import { API_URL } from "@/src/shared/constants"
-import { cookies } from "next/headers"
+import { ActionResult } from "@/src/shared/types"
 import { Todo } from "../model/schemas/todo.schema"
 
-export async function getUserTodos() {
-  const accessToken = (await cookies()).get("accessToken")?.value
-
-  const res = await fetch(`${API_URL}/todo`, {
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: `accessToken=${accessToken}`,
-    },
-
-    next: {
-      tags: ["get_todos"],
-    },
+export async function getUserTodos(): Promise<ActionResult<Todo[]>> {
+  return api.get<Todo[]>(`${API_URL}/todo`, {
+    next: { tags: [API_TAGS.GET_TODOS] },
   })
-
-  if (!res.ok) {
-    return []
-  }
-
-  const todos = (await res.json()) as unknown as Todo[]
-
-  return todos
 }

@@ -1,1 +1,1 @@
-export {ProjectRecentActivityListEntry} from "./ui/ProjectRecentActivityListEntry"
+export { ProjectRecentActivityListEntry } from "./ui/ProjectRecentActivityListEntry"

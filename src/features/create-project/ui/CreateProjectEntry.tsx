@@ -29,7 +29,7 @@ export const CreateProjectEntry = () => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <div className="flex flex-col items-center sm:items-start gap-5 sm:flex-row">
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
             <ProjectIconPicker control={control} />
             <div className="flex flex-1 flex-col gap-4">
               <ProjectTitleField control={control} />

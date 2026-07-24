@@ -4,7 +4,8 @@ import { Inbox } from "lucide-react"
 import { TodoListItem } from "./TodoListItem"
 
 export const TodoList = async () => {
-  const todos = await getUserTodos()
+  const result = await getUserTodos()
+  const todos = result.success ? (result.data ?? []) : []
 
   if (!todos.length) {
     return (
@@ -18,7 +19,7 @@ export const TodoList = async () => {
   return (
     <ul
       className={cn(
-        "grid grid-cols-1 mt-4 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+        "mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
         todos.length < 8 && "justify-normal"
       )}
     >

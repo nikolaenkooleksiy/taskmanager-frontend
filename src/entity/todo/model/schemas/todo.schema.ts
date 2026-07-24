@@ -1,10 +1,6 @@
 import { z as zod } from "zod/v4"
 
-export const todoStatusSchema = zod.enum([
-  "Pending",
-  "InProgress",
-  "Completed",
-])
+export const todoStatusSchema = zod.enum(["Pending", "InProgress", "Completed"])
 
 export const todoSchema = zod.object({
   id: zod.uuid(),

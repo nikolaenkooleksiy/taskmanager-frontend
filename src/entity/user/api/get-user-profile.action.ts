@@ -1,25 +1,12 @@
 "use server"
 
+import { api } from "@/src/shared/api"
 import { API_URL } from "@/src/shared/constants"
-import { cookies } from "next/headers"
+import { ActionResult } from "@/src/shared/types"
 import { User } from "../model/schemas/user.schema"
 
-export async function getUserProfile() {
-  const accessToken = (await cookies()).get("accessToken")?.value
-
-  const res = await fetch(`${API_URL}/user/me`, {
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: `accessToken=${accessToken}`,
-    },
+export async function getUserProfile(): Promise<ActionResult<User>> {
+  return api.get<User>(`${API_URL}/user/me`, {
     cache: "no-store",
   })
-
-  if (!res.ok) {
-    return { user: null, isAuth: false }
-  }
-
-  const user = (await res.json()) as User
-
-  return { user, isAuth: !!user }
 }
