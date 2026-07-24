@@ -14,6 +14,7 @@ export * from "./textarea"
 
 export * from "./breadcrumb"
 export * from "./collapsible"
+export * from "./icon"
 export * from "./popover"
 export * from "./radio-group"
 export * from "./scroll-area"

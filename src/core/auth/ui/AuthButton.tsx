@@ -6,9 +6,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  Icon,
   Spinner,
 } from "@/src/shared/ui"
-import { Icon } from "@iconify/react"
 import { ChevronsUpDown } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
