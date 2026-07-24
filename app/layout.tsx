@@ -1,12 +1,12 @@
-import { Geist_Mono, Space_Grotesk } from "next/font/google"
+import { Geist_Mono, Inter } from "next/font/google"
 
 import { cn } from "@/src/shared/lib"
 import { Metadata } from "next"
 import { Toaster } from "sonner"
 import "./globals.css"
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
   variable: "--font-sans",
 })
 
@@ -35,7 +35,7 @@ export default async function RootLayout({
         "antialiased",
         fontMono.variable,
         "font-sans",
-        spaceGrotesk.variable
+        inter.variable
       )}
     >
       <body>
