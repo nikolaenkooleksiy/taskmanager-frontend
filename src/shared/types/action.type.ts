@@ -1,5 +1,5 @@
 export interface ActionResult<T> {
   success: boolean
-  data?: T
+  data: T | null
   error?: string
 }

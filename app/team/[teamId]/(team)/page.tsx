@@ -1,128 +1,27 @@
-import { Project } from "@/src/entity/projects"
+import { getTeamById } from "@/src/entity/team"
 import { ProjectRecentActivity } from "@/src/widgets/project-recent-activity"
+import { Metadata } from "next"
 
-// --- TYPES ---
-interface ProjectStats extends Project {
-  tasksDone: number
-  tasksTotal: number
+interface TeamDashboardPageProps {
+  params: Promise<{ teamId: string }>
 }
 
-type Priority = "low" | "medium" | "high"
+export async function generateMetadata(
+  params: TeamDashboardPageProps
+): Promise<Metadata> {
+  const { teamId } = await params.params
 
-interface UpcomingTask {
-  id: string
-  title: string
-  projectName: string
-  dueDate: string
-  priority: Priority
-  isOverdue?: boolean
+  const { data } = await getTeamById(teamId)
+
+  return {
+    title: data?.name || "Team Dashboard",
+    description: "Manage your team's projects and tasks.",
+  }
 }
 
-interface TeamMember {
-  id: string
-  name: string
-  role: string
-  isOnline: boolean
-  lastSeen?: string
-}
-
-const MOCK_UPCOMING_TASKS: UpcomingTask[] = [
-  {
-    id: "task-101",
-    title: "Prepare API documentation",
-    projectName: "Interview Trainer",
-    dueDate: "Today, 18:00",
-    priority: "high",
-    isOverdue: false,
-  },
-  {
-    id: "task-102",
-    title: "Setup E2E tests for auth module",
-    projectName: "Auth Service",
-    dueDate: "Tomorrow, 12:00",
-    priority: "medium",
-    isOverdue: false,
-  },
-  {
-    id: "task-103",
-    title: "Fix EGL display bug in Linux build",
-    projectName: "Desktop Client",
-    dueDate: "Yesterday",
-    priority: "high",
-    isOverdue: true,
-  },
-]
-
-const MOCK_MEMBERS: TeamMember[] = [
-  {
-    id: "mem-1",
-    name: "Alexey",
-    role: "Fullstack Dev",
-    isOnline: true,
-  },
-  {
-    id: "mem-2",
-    name: "Anna",
-    role: "Product Designer",
-    isOnline: true,
-  },
-  {
-    id: "mem-3",
-    name: "Devon",
-    role: "Backend Lead",
-    isOnline: false,
-    lastSeen: "20 mins ago",
-  },
-  {
-    id: "mem-4",
-    name: "Elena",
-    role: "QA Engineer",
-    isOnline: false,
-    lastSeen: "2 hours ago",
-  },
-]
-
-const priorityColors: Record<Priority, string> = {
-  low: "bg-slate-500/10 text-slate-500",
-  medium: "bg-amber-500/10 text-amber-500",
-  high: "bg-destructive/10 text-destructive",
-}
-
-// async function getProjectsStats(teamId: string): Promise<ProjectStats[]> {
-//   const cookiesStore = await cookies()
-
-//   const res = await fetch(`${API_URL}/project/${teamId}/stats`, {
-//     cache: "no-store",
-//     headers: {
-//       Cookie: cookiesStore.toString(),
-//       "Content-Type": "application/json",
-//     },
-//   })
-
-//   if (!res.ok) {
-//     // Безопасно парсим ошибку, если это JSON, иначе фоллбэк на статус
-//     const errorData = await res.json().catch(() => null)
-//     console.error(
-//       errorData?.message || `Failed to fetch stats: ${res.statusText}`
-//     )
-//   }
-
-//   return res.json()
-// }
 export default async function TeamDashboardPage({
   params,
-}: {
-  params: Promise<{ teamId: string }>
-}) {
-  const { teamId } = await params
-
-  // const projects = await getProjectsStats(teamId)
-
-  // const stats = {
-  //   projects: projects.length,
-  //   todos: projects.reduce((acc, project) => acc + project.tasksTotal, 0),
-  // }
-
+}: TeamDashboardPageProps) {
   return (
     <section className="space-y-6">
       <div className="flex items-center justify-between">
@@ -130,55 +29,8 @@ export default async function TeamDashboardPage({
       </div>
 
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-2 2xl:grid-cols-12">
-        <div className="flex flex-col gap-6 lg:col-span-1 2xl:col-span-9">
+        <div className="flex flex-col gap-6 lg:col-span-9">
           <ProjectRecentActivity />
-
-          {/* <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base font-medium">
-                <Clock className="size-4 text-muted-foreground" />
-                Upcoming Deadlines
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-3">
-                {MOCK_UPCOMING_TASKS.map((task) => (
-                  <div
-                    key={task.id}
-                    className="flex items-center justify-between gap-2 rounded-lg border p-3 transition-colors hover:bg-muted/50"
-                  >
-                    <div className="flex flex-col gap-1 overflow-hidden pr-2">
-                      <span className="truncate text-sm font-medium">
-                        {task.title}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {task.projectName}
-                      </span>
-                    </div>
-
-                    <div className="flex shrink-0 flex-col items-end gap-1">
-                      <span
-                        className={`rounded px-1.5 py-0.5 text-[10px] font-medium capitalize ${
-                          priorityColors[task.priority]
-                        }`}
-                      >
-                        {task.priority}
-                      </span>
-                      <span
-                        className={`text-xs ${
-                          task.isOverdue
-                            ? "font-medium text-destructive"
-                            : "text-muted-foreground"
-                        }`}
-                      >
-                        {task.dueDate}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card> */}
         </div>
 
         <div className="flex flex-col gap-6 lg:col-span-1 2xl:col-span-3">

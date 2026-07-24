@@ -4,6 +4,7 @@ export const API_TAGS = {
   CREATE_TODO: "create_todo",
   UPDATE_TODO: "update_todo",
   DELETE_TODO: "delete_todo",
+  GET_TEAM_BY_ID: "get_team_by_id",
 
   GET_USER_TEAMS: "user-teams",
   CREATE_TEAM: "create_team",
