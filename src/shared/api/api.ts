@@ -1,5 +1,5 @@
-import { cookies } from "next/headers"
 import { ActionResult } from "@/src/shared/types"
+import { cookies } from "next/headers"
 
 export class Api {
   private static instance: Api
@@ -108,18 +108,8 @@ export class Api {
     let accessToken = cookieStore.get("accessToken")?.value
     const refreshToken = cookieStore.get("refreshToken")?.value
 
-    if (!refreshToken && !accessToken) {
-      console.error("[Api] No tokens found in cookies")
-      throw new Error("Unauthorized: No tokens available")
-    }
-
     if (!accessToken && refreshToken) {
-      console.log("[Api] accessToken missing, attempting immediate refresh...")
       accessToken = (await this.handleRefresh(refreshToken)) || undefined
-
-      if (!accessToken) {
-        throw new Error("Unauthorized: Refresh failed")
-      }
     }
 
     const headers = new Headers(options.headers)
@@ -141,7 +131,6 @@ export class Api {
     let response = await fetch(url, { ...options, headers })
 
     if (response.status === 401 && refreshToken) {
-      console.log("[Api] Got 401 from server, refreshing token...")
       const newAccessToken = await this.handleRefresh(refreshToken)
 
       if (newAccessToken) {
