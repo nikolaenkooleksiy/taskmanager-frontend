@@ -12,6 +12,7 @@ export const API_TAGS = {
 
   GET_PROJECTS: "get_projects",
   CREATE_PROJECT: "create_project",
+  GET_PROJECT_BY_ID: "get_project_by_id",
 
   GET_USER_PROFILE: "get_user_profile",
 }
