@@ -1,8 +1,8 @@
 "use server"
 
 import { api } from "@/src/shared/api"
-import { API_URL } from "@/src/shared/constants"
 import { API_TAGS } from "@/src/shared/configs/api-cache-tags/api-tags.config"
+import { API_URL } from "@/src/shared/constants"
 import { ActionResult } from "@/src/shared/types"
 import { updateTag } from "next/cache"
 import { CreateTeamInput } from "../model/schemas/create-team.schema"
